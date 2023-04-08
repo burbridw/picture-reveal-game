@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+body {
+    background-color: lightpink;
+}
+.game-window {
+    margin: 0 auto;
+    margin-top: 5vh;
+    width: 80vw;
+    display: flex;
+    justify-content: center;
+    height: 80vh;
+    position: relative;
+}
+.picture-window {
+    width: 80vw;
+    height: 100%;
+    background-color: white;
+}
+.cover-grid-container {
+    position: absolute;
+    width: 80vw;
+    height: 100%;
+}
+.cover-grid {
+    display: grid;
+    grid-template-columns: repeat(60,1fr);
+    grid-template-rows: repeat(45,1fr);
+}
+.cover-grid-box {
+    background-color: black;
+}
+.one-clear {
+    opacity: .875;
+}
+.two-clear {
+    opacity: .75;
+}
+.three-clear {
+    opacity: .625;
+}
+.four-clear {
+    opacity: .50;
+}
+.five-clear {
+    opacity: .375;
+}
+.six-clear {
+    opacity: .25;
+}
+.seven-clear {
+    opacity: .125;
+}
+.eight-clear {
+    opacity: 0;
+}
+.pink {
+    background-color: pink;
+}
