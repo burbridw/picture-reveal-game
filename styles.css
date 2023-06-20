@@ -5,6 +5,7 @@
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    user-select: none;
 }
 body {
     background-color: lightpink;
@@ -23,6 +24,10 @@ body {
     height: 100%;
     background-color: white;
 }
+canvas {
+    position: absolute;
+    /* background-color: blue; */
+}
 .cover-grid-container {
     position: absolute;
     width: 80vw;
@@ -33,8 +38,35 @@ body {
     grid-template-columns: repeat(60,1fr);
     grid-template-rows: repeat(45,1fr);
 }
-.cover-grid-box {
+/* .cover-grid-box {
     background-color: black;
+} */
+.game-buttons {
+    width: 80vw;
+    height: 10vh;
+    margin: 0 auto;
+    margin-top: 2vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.size-select {
+    width: 15vw;
+    height: 90%;
+    border-radius: 8px;
+    box-shadow: 1px 1px 2px 1px black;
+    background-color: orange;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.current-size {
+    box-shadow: 0 0 4px 2px blue;
+}
+span {
+    width: min-content;
+    height: min-content;
 }
 .one-clear {
     opacity: .875;
