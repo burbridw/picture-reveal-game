@@ -1,4 +1,5 @@
 const gameWindow = document.querySelector(".game-window")
+const gameRootGame = document.querySelector(".game-root-game")
 const pictureWindow = document.querySelector(".picture-window")
 
 let canDraw = false
@@ -12,19 +13,6 @@ canvas.height = window.innerHeight * 0.8
 let offSetX = window.innerWidth * 0.1
 let offSetY = window.innerHeight * 0.03
 
-window.addEventListener("resize",()=>{
-    canvas.width = window.innerWidth * 0.8
-    canvas.height = window.innerHeight * 0.8
-    offSetX = window.innerWidth * 0.1
-    offSetY = window.innerHeight * 0.03
-    drawCanvas()
-})
-
-window.addEventListener("load",()=>{
-    setImage()
-    
-    drawCanvas()
-})
 
 let activeArr = []
 let selectArr = []
@@ -38,13 +26,13 @@ let inPractice = false
 let inImage = false
 let inGame = false
 let skipPractice = false
+let gameCount = 0
 
 const gameRootMenu = document.querySelector(".game-root-menu")
 const gameBtnContainer = document.querySelector(".game-btn-container")
 const topicBtnContainer = document.querySelector(".topic-btn-container")
 const selectContainer = document.querySelector(".select-container")
 const selectBtnGrid = document.querySelector(".select-btn-grid")
-const cardsContainer = document.querySelector(".cards-container")
 const practiceScreen = document.querySelector(".practice-screen")
 const imageScreen = document.querySelector(".image-screen")
 
@@ -104,9 +92,16 @@ const selectObj = {
     "ABC" : ["./images/alphabet/img1.png","./images/alphabet/img2.png", "./images/alphabet/img3.png", "./images/alphabet/img4.png", "./images/alphabet/img5.png", "./images/alphabet/img6.png", "./images/alphabet/img7.png", "./images/alphabet/img8.png", "./images/alphabet/img9.png", "./images/alphabet/img10.png", "./images/alphabet/img11.png", "./images/alphabet/img12.png", "./images/alphabet/img13.png", "./images/alphabet/img14.png", "./images/alphabet/img15.png", "./images/alphabet/img16.png", "./images/alphabet/img17.png", "./images/alphabet/img18.png", "./images/alphabet/img19.png", "./images/alphabet/img20.png", "./images/alphabet/img21.png", "./images/alphabet/img22.png", "./images/alphabet/img23.png", "./images/alphabet/img24.png", "./images/alphabet/img25.png", "./images/alphabet/img26.png"], 
     "abc" : ["./images/alphabet/img27.png","./images/alphabet/img28.png", "./images/alphabet/img29.png", "./images/alphabet/img30.png", "./images/alphabet/img31.png", "./images/alphabet/img32.png", "./images/alphabet/img33.png", "./images/alphabet/img34.png", "./images/alphabet/img35.png", "./images/alphabet/img36.png", "./images/alphabet/img37.png", "./images/alphabet/img38.png", "./images/alphabet/img39.png", "./images/alphabet/img40.png", "./images/alphabet/img41.png", "./images/alphabet/img42.png", "./images/alphabet/img43.png", "./images/alphabet/img44.png", "./images/alphabet/img45.png", "./images/alphabet/img46.png", "./images/alphabet/img47.png", "./images/alphabet/img48.png", "./images/alphabet/img49.png", "./images/alphabet/img50.png", "./images/alphabet/img51.png", "./images/alphabet/img52.png"], 
 }
-function setImage() {
-    pictureWindow.innerHTML = `<img src="./images/school/img4.png">`
-}
+
+window.addEventListener("resize",()=>{
+    canvas.width = window.innerWidth * 0.8
+    canvas.height = window.innerHeight * 0.8
+    offSetX = window.innerWidth * 0.1
+    offSetY = window.innerHeight * 0.03
+    drawCanvas()
+})
+
+drawCanvas()
 
 canvas.addEventListener("mousemove",event=>{
     trackMouse(event.x-offSetX,event.y-offSetY)
@@ -120,13 +115,6 @@ function trackMouse(posx,posy) {
         // clearCircle2(ctx,posx,posy,125)
     }
 }
-
-function clearCircle2(context,posx,posy,radius) {
-    context.globalCompositeOperation = 'destination-out'
-    context.arc(posx, posy, radius, 0, Math.PI*2, true);
-    context.fill();
-}
-
 canvas.addEventListener("mousedown",(event)=>{
     canDraw = true
     clearCircle(ctx,event.x-offSetX,event.y-offSetY,circleSize)
@@ -137,13 +125,20 @@ window.addEventListener("mouseup",()=>{
     drawCanvas()
 })
 
-
+function setImage() {
+    pictureWindow.innerHTML = `<img src="./images/school/img4.png">`
+}
 function drawCanvas() {
     if ( !stayOn ) {
         ctx.fillRect(0,0,canvas.width,canvas.height)
         ctx.fillStyle = "black"
         ctx.fill()
     }
+}
+function clearCircle2(context,posx,posy,radius) {
+    context.globalCompositeOperation = 'destination-out'
+    context.arc(posx, posy, radius, 0, Math.PI*2, true);
+    context.fill();
 }
 
 sizesmall.addEventListener("click",()=>{
@@ -172,6 +167,7 @@ answer.addEventListener("click",()=>{
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 })
 
+
 function displaySize(button) {
     document.querySelector(".current-size").classList.remove("current-size")
     button.classList.add("current-size")
@@ -195,7 +191,8 @@ const innerBtnClear = document.getElementById("clearselection")
 const innerBtnConfirm = document.getElementById("closewindow")
 const naviLeft = document.querySelector(".navi-button-left")
 const naviRight = document.querySelector(".navi-button-right")
-
+const gameControlBack = document.querySelector(".game-control-back")
+const gameControlReset = document.querySelector(".game-control-reset")
 
 allSelectButtons.forEach( (x) => {
     let tag = x.getAttribute("id")
@@ -307,7 +304,7 @@ function quickstart() {
 }
 renderBtn.addEventListener("click", function(){
     if (activeArr.length >= 1) {
-    renderGame(activeArr)
+        renderGame(activeArr)
     }
 })
 
@@ -355,10 +352,72 @@ naviRight.addEventListener("click",()=>{
     }
 })
 
-renderBtn.addEventListener("click", function(){
-    if (activeArr.length >= 1) {
-    renderGame(activeArr)
+// activeArr = selectObj["school"]
+
+function renderGame(arr) {
+    if ( inMain && !skipPractice ) {
+        buildPracticeGrid()
+        practiceScreen.classList.remove("closed")
+        topicBtnContainer.classList.add("closed")
+        inMain = false
+        inPractice = true
+        clearBtn.textContent = "Back"
+    } else {
+        inPractice = false
+        inImage = false
+        displayArr = arr.slice(0,arr.length).sort( () => { return 0.5 - Math.random() } )
+        pictureWindow.children[0].setAttribute("src",displayArr[gameCount])
+        gameCount++
+        inGame = true
+        imageScreen.classList.add("closed")
+        practiceScreen.classList.add("closed")
+        gameRootGame.classList.remove("closed")
+        gameRootMenu.classList.add("closed")
+    }
+}
+gameControlReset.addEventListener("click",()=>{
+    if ( gameCount < activeArr.length) {
+        stayOn = false
+        stayon.classList.remove("stayon-on")
+        drawCanvas()
+        pictureWindow.children[0].setAttribute("src",displayArr[gameCount])
+        gameCount++
+    }
+})
+clearBtn.addEventListener("click",()=>{
+    if ( inMain ) {
+        activeArr = []
+        document.querySelectorAll(".toggleOn").forEach( (x) => {
+            x.classList.remove("toggleOn")
+            x.classList.add("toggleOff")
+        })
+        if ( document.querySelectorAll(".topic-selected").length > 0 ) {
+            document.querySelectorAll(".topic-selected").forEach( (topic) =>{ topic.classList.remove("topic-selected") } )
+        }
+    } else if ( inPractice ) {
+        inPractice = false
+        inMain = true
+        clearBtn.textContent = "Clear All"
+        practiceScreen.classList.add("closed")
+        topicBtnContainer.classList.remove("closed")
+    } else if ( inImage ) {
+        inImage = false
+        inPractice = true
+        practiceScreen.classList.remove("closed")
+        imageScreen.classList.add("closed")
     }
 })
 
-
+gameControlBack.addEventListener("click",()=>{
+    if ( inGame ) {
+        gameCount = 0
+        inMain = true
+        inGame = false
+        stayOn = false
+        stayon.classList.remove("stayon-on")
+        drawCanvas()
+        gameRootMenu.classList.remove("closed")
+        gameRootGame.classList.add("closed")
+        topicBtnContainer.classList.remove("closed")
+    }
+})

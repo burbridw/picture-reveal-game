@@ -34,6 +34,13 @@ body {
 .picture-window {
     width: 80vw;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.picture-window img {
+    height: 100%;
+    width: auto;
 }
 canvas {
     position: absolute;
@@ -81,7 +88,7 @@ canvas {
     align-items: center;
     font-size: var(--button-text);
     color: white;
-    width: 12vh;
+    width: 6vw;
     height: 18vh;
     top: 3%;
     left: 93%;

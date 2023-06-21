@@ -98,14 +98,13 @@
             </div>
         </div>
     </div>
-    <div class="game-window closed">
-        <div class="picture-window">
-            
+    <div class="game-root-game closed">
+        <div class="game-window">
+            <div class="picture-window">
+                <img src="">
+            </div>
+            <canvas id="canvas"></canvas>
         </div>
-        <canvas id="canvas"></canvas>
-        <div class="game-control game-control-reset"><img class ="reset-mark" src="./images/arrows/reset.png"></div>
-        <div class="game-control game-control-back"><img class="back-button-arrow" src="./images/arrows/img1.png"></div>
-        <div class="game-control game-control-answer" id="answer"><span>A</span></div>
         <div class="game-buttons">
             <div class="size-select" id="sizesmall">
                 <span>Small</span>
@@ -119,6 +118,11 @@
             <div class="size-select stay-on" id="stayon">
                 <span>Stay On/Off</span>
             </div>
+        </div>
+        <div class="game-controls">
+            <div class="game-control game-control-reset"><img class ="reset-mark" src="./images/arrows/reset.png"></div>
+            <div class="game-control game-control-back"><img class="back-button-arrow" src="./images/arrows/img1.png"></div>
+            <div class="game-control game-control-answer" id="answer"><span>A</span></div>
         </div>
     </div>
     
