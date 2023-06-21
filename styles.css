@@ -5,14 +5,26 @@
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    font-family: Tahoma, sans-serif;
     user-select: none;
 }
+:root {
+    --button-text: clamp(1rem, 5vh, 2rem);
+    --large-text: clamp(0.5rem, 3vmin, 2rem);
+    --button-color1: orange;
+    --button-color2: palegoldenrod;
+    --button-shadow1: 1px 1px 2px 1px darkorange;
+    --button-shadow2: 1px 1px 3px 1px darkslategrey;
+    --card-shadow: 1px 1px 3px 1px black;
+    --light-background: lightblue;
+    --hover-color: lightgreen;
+}
 body {
-    background-color: lightpink;
+    background-color: var(--light-background);
 }
 .game-window {
     margin: 0 auto;
-    margin-top: 5vh;
+    margin-top: 3vh;
     width: 80vw;
     display: flex;
     justify-content: center;
@@ -22,7 +34,6 @@ body {
 .picture-window {
     width: 80vw;
     height: 100%;
-    background-color: white;
 }
 canvas {
     position: absolute;
@@ -33,14 +44,6 @@ canvas {
     width: 80vw;
     height: 100%;
 }
-.cover-grid {
-    display: grid;
-    grid-template-columns: repeat(60,1fr);
-    grid-template-rows: repeat(45,1fr);
-}
-/* .cover-grid-box {
-    background-color: black;
-} */
 .game-buttons {
     width: 80vw;
     height: 10vh;
@@ -51,47 +54,232 @@ canvas {
     align-items: center;
 }
 .size-select {
-    width: 15vw;
+    width: 10vw;
     height: 90%;
     border-radius: 8px;
-    box-shadow: 1px 1px 2px 1px black;
-    background-color: orange;
+    box-shadow: var(--button-shadow1);
+    background-color: var(--button-color1);
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: var(--button-text);
+    cursor: pointer;
 }
-.current-size {
-    box-shadow: 0 0 4px 2px blue;
+.stay-on {
+    width: 20vw;
+}
+.current-size, .stayon-on {
+    background-color: lightgreen;
+    box-shadow: 1px 1px 2px 1px green;
+    color: green;
+}
+.game-control {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--button-text);
+    color: white;
+    width: 12vh;
+    height: 18vh;
+    top: 3%;
+    left: 93%;
+    background-color: var(--light-background);
+    box-shadow: var(--button-shadow2);
+    cursor: pointer;
+}
+.game-control-back {
+    left: 1%;
+}
+.game-control-answer {
+    top: 30%;
+}
+.back-button-arrow {
+    transform: rotateZ(270deg);
+    width: 16vh;
+    height: 8vh;
+}
+.reset-mark {
+    height: 10vh;
+    width: 10vh;
+}
+.game-root-menu {
+    height: 98%;
+    width: 100%;
+}
+.game-btn-container,.inner-btn-container {
+    margin: 0 auto;
+    height: 8vh;
+    width: 98%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 0.5vh;
+    border-bottom: 2px solid black;
+}
+.game-button,.inner-button {
+    width: 25%;
+    background-color: var(--button-color2);
+    border-radius: 5px;
+    box-shadow: var(--card-shadow);
+    font-size: var(--large-text);
+    transition: all 0.2s ease-in-out;
+    font-weight: bold;
+    overflow: hidden;
+}
+.game-button:nth-of-type(3),.inner-button:nth-of-type(3) {
+    width: 40%;
+}
+
+.topic-btn-container,.select-btn-container {
+    margin: 0 auto;
+    padding-top: 0.5vh;
+    height: 90vh;
+    width: 98%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.topic-button {
+    height: 8vh;
+    min-height: 40px;
+    width: 240px;
+    margin-bottom: 2vh;
+    box-shadow: var(--card-shadow);
+    background-color: var(--button-color2);
+    border-radius: 10px;
+    border: 4px solid silver;
+    font-size: var(--large-text);
+    font-weight: bold;
+}
+.letstry-topic {
+  background-color: rgb(255, 199, 96);
+}
+
+.game-button:hover,.inner-button:hover,.topic-button:hover {
+    background-color: var(--hover-color);
+}
+
+.select-container {
+    margin: 0 auto;
+    width: 98%;
+    height: 100%;
+}   
+
+.select-btn-grid {
+    margin: 0 auto;
+    width: 98%;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(9,1fr);
+    gap: 1vh;
+}
+
+.select-img-box {
+    padding: 10px;
+    height: 30vmin;
+    width: 45vmin;
+    max-width: 23vw;
+    box-shadow: var(--card-shadow);
+    background-color: lightgray;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.select-img {
+    width: 35vmin;
+    max-width: 20vmax;
+    height: auto;
+    max-height: 29vmin;
+    border-radius: 15px;
+}
+
+@media (orientation: portrait) {
+    .select-btn-grid {
+        grid-template-columns: repeat(2,1fr);
+        grid-template-rows: repeat(18,1fr);
+    }
+    .select-img-box {
+        height: 40vmin;
+        width: 50vmin;
+        max-width: 40vw;
+    }
+}
+.selected {
+  box-shadow: 0 0 15px 3px red;
+  border-radius: 15px;
+}
+.topic-selected, .topic-selected:hover {
+  background-color: pink;
+}
+.practice-screen {
+  height: 90vh;
+}
+.practice-grid {
+  margin: 0 auto;
+  width: 95vw;
+  height: 90vh;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(7,1fr);
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.practice-grid::-webkit-scrollbar {
+    display: none;
+}
+.practice-grid-box {
+  margin: 0 auto;
+  width: 20vmax;
+  height: 15vmax;
+}
+
+.image-screen {
+  display: flex;
+  height: 90vh;
+}
+
+.image {
+  margin: 0 auto;
+  margin-top: 5vh;
+  width: 80vw;
+  height: 80vmin;
+  box-shadow: var(--light-shadow);
+}
+
+.navi-button-left {
+  margin-left: 5vw;
+  display: flex;
+  justify-content: flex-start;
+  width: 20vw;
+  align-items: center;
+}
+.navi-button-left img {
+  transform: rotate(-90deg);
+  height: 15vmin;
+  width: 35vh;
+}
+.navi-button-right {
+  margin-right: 5vw;
+  width: 20vw;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.navi-button-right img {
+  transform: rotate(90deg);
+  height: 15vmin;
+  width: 35vh;
+}
+.closed {
+    display: none;
+    z-index: -20;
 }
 span {
-    width: min-content;
+    width: fit-content;
     height: min-content;
-}
-.one-clear {
-    opacity: .875;
-}
-.two-clear {
-    opacity: .75;
-}
-.three-clear {
-    opacity: .625;
-}
-.four-clear {
-    opacity: .50;
-}
-.five-clear {
-    opacity: .375;
-}
-.six-clear {
-    opacity: .25;
-}
-.seven-clear {
-    opacity: .125;
-}
-.eight-clear {
-    opacity: 0;
-}
-.pink {
-    background-color: pink;
 }
