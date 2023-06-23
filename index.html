@@ -124,6 +124,20 @@
             <div class="game-control game-control-back"><img class="back-button-arrow" src="./images/arrows/img1.png"></div>
             <div class="game-control game-control-answer" id="answer"><span>A</span></div>
         </div>
+        <div class="prompt-background closed" id="endOverlay"></div>
+        <dialog class="game-over-dialog" id="gameOver">
+            <div class="dialog-text">
+                <span>Do you want to play again?</span>
+            </div>
+            <div class="dialog-buttons">
+                <div class="dialog-button play-again" id="again">
+                    <span>Play Again</span>
+                </div>
+                <div class="dialog-button back-to-menu" id="menu">
+                    <span>Main Menu</span>
+                </div>
+            </div>
+        </dialog>
     </div>
     
     <script src="app.js"></script>

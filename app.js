@@ -363,6 +363,7 @@ function renderGame(arr) {
         inPractice = true
         clearBtn.textContent = "Back"
     } else {
+        gameCount = 0
         inPractice = false
         inImage = false
         displayArr = arr.slice(0,arr.length).sort( () => { return 0.5 - Math.random() } )
@@ -382,18 +383,39 @@ gameControlReset.addEventListener("click",()=>{
         drawCanvas()
         pictureWindow.children[0].setAttribute("src",displayArr[gameCount])
         gameCount++
+    } else {
+        gameOver.show()
+        endOverlay.classList.remove("closed")
     }
 })
+again.addEventListener("click",()=>{
+    gameCount = 0
+    gameOver.close()
+    endOverlay.classList.add("closed")
+    renderGame(activeArr)
+})
+menu.addEventListener("click",()=>{
+    gameCount = 0
+    backToMenu()
+})
+
+function backToMenu() {
+    skipPractice = false
+    activeArr = []
+    if ( document.querySelectorAll(".topic-selected").length > 0 ) {
+        document.querySelectorAll(".topic-selected").forEach( (topic) =>{ topic.classList.remove("topic-selected") } )
+    }
+    clearBtn.textContent = "Clear All"
+    gameRootMenu.classList.remove("closed")
+    gameRootGame.classList.add("closed")
+    topicBtnContainer.classList.remove("closed")
+    gameOver.close()
+    endOverlay.classList.add("closed")
+}
+
 clearBtn.addEventListener("click",()=>{
     if ( inMain ) {
-        activeArr = []
-        document.querySelectorAll(".toggleOn").forEach( (x) => {
-            x.classList.remove("toggleOn")
-            x.classList.add("toggleOff")
-        })
-        if ( document.querySelectorAll(".topic-selected").length > 0 ) {
-            document.querySelectorAll(".topic-selected").forEach( (topic) =>{ topic.classList.remove("topic-selected") } )
-        }
+        backToMenu()
     } else if ( inPractice ) {
         inPractice = false
         inMain = true
@@ -414,10 +436,14 @@ gameControlBack.addEventListener("click",()=>{
         inMain = true
         inGame = false
         stayOn = false
+        if ( skipPractice ) {
+            backToMenu()
+        }
         stayon.classList.remove("stayon-on")
         drawCanvas()
         gameRootMenu.classList.remove("closed")
         gameRootGame.classList.add("closed")
         topicBtnContainer.classList.remove("closed")
+        clearBtn.textContent = "Clear All"
     }
 })
