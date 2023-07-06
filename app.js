@@ -107,6 +107,27 @@ canvas.addEventListener("mousemove",event=>{
     trackMouse(event.x-offSetX,event.y-offSetY)
 })
 
+canvas.addEventListener("touchstart",(event)=>{
+    canDraw = true
+    getCanvasTouch(event)
+})
+canvas.addEventListener("touchmove",getCanvasTouch)
+window.addEventListener("touchend",stopDraw)
+
+function stopDraw() {
+    canDraw = false
+    drawCanvas()
+}
+
+function getCanvasTouch(event) {
+    console.log("touching")
+    event.preventDefault()
+    let canvasTouch = event.touches[0]
+    let touchX = canvasTouch.pageX-offSetX
+    let touchY = canvasTouch.pageY-offSetY
+    trackMouse(touchX,touchY)
+}
+
 function trackMouse(posx,posy) {
     // ctx.clearRect(posx-window.innerWidth*0.04,posy,100,100)
     if ( canDraw ) {
@@ -120,10 +141,7 @@ canvas.addEventListener("mousedown",(event)=>{
     clearCircle(ctx,event.x-offSetX,event.y-offSetY,circleSize)
         // clearCircle2(ctx,event.x-offSetX,event.y-offSetY,125)
 })
-window.addEventListener("mouseup",()=>{
-    canDraw = false
-    drawCanvas()
-})
+window.addEventListener("mouseup",stopDraw)
 
 function setImage() {
     pictureWindow.innerHTML = `<img src="./images/school/img4.png">`
@@ -134,6 +152,11 @@ function drawCanvas() {
         ctx.fillStyle = "black"
         ctx.fill()
     }
+}
+function resetCanvas() {
+    ctx.fillRect(0,0,canvas.width,canvas.height)
+    ctx.fillStyle = "black"
+    ctx.fill()
 }
 function clearCircle2(context,posx,posy,radius) {
     context.globalCompositeOperation = 'destination-out'
@@ -355,6 +378,7 @@ naviRight.addEventListener("click",()=>{
 // activeArr = selectObj["school"]
 
 function renderGame(arr) {
+    console.log(skipPractice)
     if ( inMain && !skipPractice ) {
         buildPracticeGrid()
         practiceScreen.classList.remove("closed")
@@ -366,6 +390,9 @@ function renderGame(arr) {
         gameCount = 0
         inPractice = false
         inImage = false
+        stayOn = false
+        stayon.classList.remove("stayon-on")
+        drawCanvas()
         displayArr = arr.slice(0,arr.length).sort( () => { return 0.5 - Math.random() } )
         pictureWindow.children[0].setAttribute("src",displayArr[gameCount])
         gameCount++
@@ -378,9 +405,7 @@ function renderGame(arr) {
 }
 gameControlReset.addEventListener("click",()=>{
     if ( gameCount < activeArr.length) {
-        stayOn = false
-        stayon.classList.remove("stayon-on")
-        drawCanvas()
+        resetCanvas()
         pictureWindow.children[0].setAttribute("src",displayArr[gameCount])
         gameCount++
     } else {
@@ -401,6 +426,7 @@ menu.addEventListener("click",()=>{
 
 function backToMenu() {
     skipPractice = false
+    inMain = true
     activeArr = []
     if ( document.querySelectorAll(".topic-selected").length > 0 ) {
         document.querySelectorAll(".topic-selected").forEach( (topic) =>{ topic.classList.remove("topic-selected") } )
